@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Lenis from "@studio-freight/lenis";
@@ -56,6 +56,19 @@ function stackServiceCards() {
 }
 
 export default function Home() {
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const handleContactSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    // Simulate network request
+    setTimeout(() => {
+      setIsSubmitting(false);
+      setIsSubmitted(true);
+    }, 1500);
+  };
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 0.72,
@@ -86,9 +99,12 @@ export default function Home() {
         duration: 1.5,
         ease: "power4.inOut",
         delay: 0.2,
+        onComplete: () => {
+          gsap.set(".bg-secondary-400", { display: "none" });
+        }
       }, 0);
 
-      gsap.utils.toArray(".transition-all").forEach((el: any) => {
+      gsap.utils.toArray(".ease-in.opacity-0").forEach((el: any) => {
         gsap.to(el, {
           opacity: 1,
           y: 0,
@@ -98,24 +114,20 @@ export default function Home() {
         });
       });
 
-      gsap.to("h1 svg", {
-        opacity: 1,
-        duration: 0.5,
-        delay: 1.2,
-      });
-
-      gsap.to("h1 svg path, h1 svg text", {
+      gsap.to(".name-char-desktop", {
         y: 0,
         duration: 1.5,
         ease: "power4.out",
+        stagger: 0.05,
         delay: 1.3,
       });
 
       gsap.utils.toArray(".overflow-hidden").forEach((container: any) => {
+        if (container.querySelector(".name-char-desktop")) return;
         const spans = container.querySelectorAll(".inline-block");
         if (spans.length > 0) {
           gsap.to(spans, {
-            y: "0%",
+            y: 0,
             opacity: 1,
             duration: 1,
             ease: "power4.out",
@@ -281,32 +293,20 @@ export default function Home() {
         <div className="section-padding-equal sticky top-0 flex h-svh items-end">
           <div className="relative flex w-full flex-col md:gap-y-[var(--space-lg)] ">
             <h1 className="text-[length:var(--text-h1)] overflow-clip">
-              <svg
-                width="1430"
-                height="163"
-                viewBox="0 0 1430 163"
-                className="hidden h-full w-full md:block"
-                xmlns="http://www.w3.org/2000/svg"
-                style={{ opacity: "0" }}
+              <div
+                className="hidden w-full md:flex justify-between items-end overflow-hidden pb-[1vw] font-bold uppercase text-[var(--color-secondary-400)]"
+                style={{ fontFamily: "var(--font-montreal), sans-serif", fontSize: "11.2vw", lineHeight: "0.85" }}
               >
-                <text
-                  x="0"
-                  y="135"
-                  fill="currentColor"
-                  style={{
-                    fontSize: "135px",
-                    fontWeight: "bold",
-                    fontFamily: "var(--font-inter), sans-serif",
-                    transform: "translateY(163px)",
-                    transformOrigin: "50% 50%",
-                    transformBox: "fill-box",
-                  }}
-                  textLength="1430"
-                  lengthAdjust="spacing"
-                >
-                  THE JYOTIRMAY
-                </text>
-              </svg>
+                {"THE JYOTIRMAY".split("").map((char, index) => (
+                  <span
+                    key={index}
+                    className="name-char-desktop inline-block"
+                    style={{ transform: "translateY(100%)" }}
+                  >
+                    {char === " " ? "\u00A0" : char}
+                  </span>
+                ))}
+              </div>
               <span className="flex flex-col text-[length:var(--text-heading-display)] font-semibold uppercase leading-[80%] tracking-[var(--tracking-heading)] text-[var(--color-secondary-400)] md:hidden">
                 <div className="overflow-hidden">
                   <span className="" style={{ opacity: "0" }}>
@@ -558,7 +558,7 @@ export default function Home() {
                     </div>
                     <div className="overflow-clip">
                       <div
-                        className=""
+                        className="transition-all duration-500"
                         style={{ opacity: "0", transform: "translateY(100px)" }}
                       >
                         <a href="#Contact">
@@ -569,10 +569,10 @@ export default function Home() {
                             <span className="relative z-20 block overflow-hidden transition-all">
                               <span
                                 className="block after:absolute after:left-0 after:block after:translate-y-0 after:transition-all after:duration-500 after:ease-[cubic-bezier(0.77,0,0.175,1)] after:content-[attr(data-after)] sm:group-hover:after:-translate-y-full"
-                                data-after="CONTACT ↗"
+                                data-after={"CONTACT \u2197\uFE0E"}
                               >
                                 <span className="flex transition-all duration-500 ease-[cubic-bezier(0.77,0,0.175,1)] sm:group-hover:-translate-y-full">
-                                  CONTACT ↗
+                                  CONTACT {"\u2197\uFE0E"}
                                 </span>
                               </span>
                             </span>
@@ -3421,7 +3421,7 @@ export default function Home() {
                 <h2 className="text-center text-[length:var(--text-h4)] font-medium mb-8 text-[var(--color-accent-200)] tracking-tight">
                   Have a project in mind?{/*   */}{" "}
                 </h2>
-                <form noValidate className="space-y-4 gform" method="POST">
+                <form noValidate className="space-y-4 gform" onSubmit={handleContactSubmit}>
                   <input
                     type="text"
                     style={{ display: "none" }}
@@ -3433,9 +3433,10 @@ export default function Home() {
                     <input
                       type="text"
                       placeholder="Your name"
-                      className="w-full placeholder:font-[400] font-normal text-[length:var(--text-base)] rounded-xl px-4 py-3 bg-white/5 border border-white/10 text-[var(--color-text-bg)] placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition"
+                      className="w-full placeholder:font-[400] font-normal text-[length:var(--text-base)] rounded-xl px-4 py-3 bg-white/5 border border-white/10 text-[var(--color-text-bg)] placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition disabled:opacity-50"
                       name="name"
                       defaultValue=""
+                      disabled={isSubmitting || isSubmitted}
                     />
                     <p className="text-red-400 text-sm mt-1 h-5 transition-all duration-300 opacity-0 invisible"></p>
                   </div>
@@ -3443,9 +3444,10 @@ export default function Home() {
                     <input
                       type="email"
                       placeholder="Your email address"
-                      className="w-full placeholder:font-[400]  text-[length:var(--text-base)] font-normal rounded-xl px-4 py-3 bg-white/5 border border-white/10 text-[var(--color-text-bg)] placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition"
+                      className="w-full placeholder:font-[400]  text-[length:var(--text-base)] font-normal rounded-xl px-4 py-3 bg-white/5 border border-white/10 text-[var(--color-text-bg)] placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition disabled:opacity-50"
                       name="email"
                       defaultValue=""
+                      disabled={isSubmitting || isSubmitted}
                     />
                     <p className="text-red-400 text-sm mt-1 transition-all duration-300 opacity-0 invisible">
                       Placeholder
@@ -3457,21 +3459,24 @@ export default function Home() {
                       placeholder="Tell me about your business or project"
                       rows={5}
                       required
-                      className="w-full placeholder:font-[400] font-normal rounded-xl px-4 py-3 bg-white/5 border border-white/10 text-[var(--color-text-bg)] placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition resize-none"
+                      className="w-full placeholder:font-[400] font-normal rounded-xl px-4 py-3 bg-white/5 border border-white/10 text-[var(--color-text-bg)] placeholder:text-white/40 focus:outline-none focus:ring-2 focus:ring-white/20 transition resize-none disabled:opacity-50"
+                      disabled={isSubmitting || isSubmitted}
                     ></textarea>
                     <p className="text-red-400 text-sm mt-1 h-5 transition-all duration-300 opacity-0 invisible"></p>
                   </div>
                   <button
                     type="submit"
+                    disabled={isSubmitting || isSubmitted}
                     className="
     w-full
     px-6 py-3 rounded-xl font-semibold tracking-wide text-[length:var(--text--small)]
-    transition-all duration-100
+    transition-all duration-300
 
     bg-[var(--color-accent-200)] text-black hover:bg-white active:scale-[0.98] active:shadow-inner
+    disabled:opacity-70 disabled:cursor-not-allowed
   "
                   >
-                    Get a quote
+                    {isSubmitting ? "Sending..." : isSubmitted ? "Message Sent! ✓" : "Get a quote"}
                   </button>
                 </form>
               </section>
