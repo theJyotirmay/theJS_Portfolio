@@ -91,6 +91,8 @@ export default function Home() {
     window.addEventListener("resize", onResize);
     document.fonts?.ready?.then(stackServiceCards);
 
+    let cleanupCounterResize = () => {};
+
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
@@ -122,6 +124,18 @@ export default function Home() {
         delay: 1.3,
       });
 
+      // Animate the hero contact button in
+      const heroContactBtn = document.querySelector('[data-hero-contact]') as HTMLElement;
+      if (heroContactBtn) {
+        gsap.to(heroContactBtn, {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          ease: "power3.out",
+          delay: 2,
+        });
+      }
+
       gsap.utils.toArray(".overflow-hidden").forEach((container: any) => {
         if (container.querySelector(".name-char-desktop")) return;
         const spans = container.querySelectorAll(".inline-block");
@@ -148,7 +162,8 @@ export default function Home() {
             el.style.opacity !== "0" ||
             el.classList.contains("inline-block") ||
             el.tagName.toLowerCase() === "svg" ||
-            el.closest("svg")
+            el.closest("svg") ||
+            el.hasAttribute('data-hero-contact')
           ) {
             return;
           }
@@ -174,10 +189,91 @@ export default function Home() {
           toggleActions: "play none none reverse",
         },
       });
+
+      // Project counter scroll animation (01 → 02 → 03 etc.)
+      const numberSlider = document.querySelector<HTMLElement>('[data-number-slider]');
+      const projectCards = Array.from(
+        document.querySelectorAll<HTMLElement>('[data-index]')
+      );
+      const firstDigit = numberSlider?.querySelector<HTMLElement>('[data-number-digit]');
+
+      if (numberSlider && firstDigit && projectCards.length) {
+        const projectsContainer = projectCards[0].parentElement;
+        if (!projectsContainer) return;
+
+        let digitHeight = 0;
+        let activeIndex = -1;
+
+        const updateCounter = () => {
+          digitHeight = firstDigit.getBoundingClientRect().height;
+          if (!digitHeight) return;
+
+          const threshold = window.innerHeight * 0.6;
+          let nextIndex = 0;
+
+          projectCards.forEach((card, index) => {
+            if (card.getBoundingClientRect().top <= threshold) {
+              nextIndex = index;
+            }
+          });
+
+          if (nextIndex === activeIndex) return;
+          const previousIndex = activeIndex;
+          activeIndex = nextIndex;
+
+          const direction = nextIndex >= previousIndex ? 1 : -1;
+          const targetY = -(activeIndex * digitHeight);
+
+          gsap.timeline({ defaults: { overwrite: "auto" } })
+            .to(numberSlider, {
+              y: targetY - direction * digitHeight * 0.08,
+              duration: 0.28,
+              ease: "power3.out",
+            })
+            .to(numberSlider, {
+              y: targetY,
+              duration: 0.24,
+              ease: "power2.out",
+            });
+        };
+
+        const counterTrigger = ScrollTrigger.create({
+          trigger: projectsContainer,
+          start: "top bottom",
+          end: "bottom top",
+          onUpdate: updateCounter,
+          onRefresh: updateCounter,
+        });
+
+        const onCounterResize = () => {
+          activeIndex = -1;
+          counterTrigger.refresh();
+        };
+
+        window.addEventListener("resize", onCounterResize);
+        updateCounter();
+        cleanupCounterResize = () => {
+          window.removeEventListener("resize", onCounterResize);
+        };
+      }
+
+      // Hero image reveal animation (clip-path + scale)
+      const heroMedia = document.querySelector('[data-hero-media]') as HTMLElement;
+      if (heroMedia) {
+        gsap.to(heroMedia, {
+          clipPath: 'inset(0 0 0% 0)',
+          opacity: 1,
+          scale: 1,
+          duration: 2.5,
+          ease: 'power2.out',
+          delay: 2,
+        });
+      }
     });
 
     return () => {
       window.removeEventListener("resize", onResize);
+      cleanupCounterResize();
       gsap.ticker.remove(ticker);
       gsap.ticker.lagSmoothing(500, 33);
       lenis.destroy();
@@ -308,7 +404,7 @@ export default function Home() {
                 ))}
               </div>
               <span className="flex flex-col text-[length:var(--text-heading-display)] font-semibold uppercase leading-[80%] tracking-[var(--tracking-heading)] text-[var(--color-secondary-400)] md:hidden">
-                <div className="overflow-hidden">
+                <div className="block w-full overflow-hidden">
                   <span className="" style={{ opacity: "0" }}>
                     <span
                       className="inline-block"
@@ -342,7 +438,7 @@ export default function Home() {
                     </span> */}
                   </span>
                 </div>
-                <div className="overflow-hidden">
+                <div className="block w-full overflow-hidden">
                   <span className="" style={{ opacity: "0" }}>
                     <span
                       className="inline-block"
@@ -558,6 +654,7 @@ export default function Home() {
                     </div>
                     <div className="overflow-clip">
                       <div
+                        data-hero-contact
                         className="transition-all duration-500"
                         style={{ opacity: "0", transform: "translateY(100px)" }}
                       >
@@ -586,6 +683,7 @@ export default function Home() {
               <div className="col-span-4 flex flex-col items-start md:items-center">
                 <div className="flex h-fit w-fit flex-col items-center justify-center gap-y-[var(--space-2xs)] overflow-hidden rounded-md">
                   <div
+                    data-hero-media
                     className="pointer-events-none h-[15vh] max-w-lg rounded-lg md:h-[50vh]"
                     style={{
                       clipPath: "inset(0 0 100% 0)",
@@ -593,14 +691,13 @@ export default function Home() {
                       scale: "1.3",
                     }}
                   >
-                    <img
-                      alt="Just an Image."
-                      width="1536"
-                      height="2040"
-                      decoding="async"
+                    <video
+                      src="/hero.mp4"
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
                       className="h-full w-full object-cover object-center grayscale"
-                      style={{ color: "transparent" }}
-                      src="/1.webp"
                     />
                   </div>
                 </div>
@@ -652,7 +749,7 @@ export default function Home() {
                             transform: "translateY(100%)",
                           }}
                         >
-                          Feb&#x27;26
+                          {new Date().toLocaleString('en-US', { month: 'short' })}&apos;{new Date().getFullYear().toString().slice(-2)}
                         </span>
                       </span>
                     </div>
@@ -1431,49 +1528,64 @@ export default function Home() {
               </div>
             </div>
             <div className="grid-gap grid grid-cols-12 pt-[var(--space-lg)]">
-              <div className="sticky top-12 col-span-5 hidden h-fit w-full overflow-hidden text-[22vw] font-normal leading-[0.8] text-[var(--color-secondary-50)] md:flex">
-                <span className="relative">0</span>
-                <div className="relative ">
+              <div className="sticky top-12 col-span-5 hidden h-fit w-full text-[22vw] font-normal leading-none text-[var(--color-secondary-50)] md:flex">
+                <span className="block shrink-0 leading-none">0</span>
+                <div
+                  className="relative block shrink-0 overflow-hidden"
+                  style={{ width: "0.65em", height: "1em" }}
+                >
                   <div
-                    className="absolute flex h-full w-fit flex-col transition-all duration-1000 ease-in-out"
-                    style={{ transform: "translateY(0%)" }}
+                  data-number-slider
+                  className="absolute left-0 top-0 flex w-full flex-col"
+                  style={{ transform: "translateY(0%)" }}
                   >
-                    <span className="inline-block">1</span>
-                    <span className="inline-block">2</span>
-                    <span className="inline-block">3</span>
-                    <span className="inline-block">4</span>
-                    <span className="inline-block">5</span>
+                  <span data-number-digit className="block shrink-0 leading-none" style={{ height: "1em" }}>1</span>
+                  <span className="block shrink-0 leading-none" style={{ height: "1em" }}>2</span>
+                  <span className="block shrink-0 leading-none" style={{ height: "1em" }}>3</span>
+                  <span className="block shrink-0 leading-none" style={{ height: "1em" }}>4</span>
+                  <span className="block shrink-0 leading-none" style={{ height: "1em" }}>5</span>
                   </div>
                 </div>
               </div>
               <aside className="relative col-span-12 flex flex-col gap-y-[var(--space-xl)] md:col-span-7 md:gap-y-[var(--space-2xl)]">
                 <div className="@container " data-index="0">
                   <a
-                    href="https://nurabyjyotirmay.netlify.app/"
+                    href="https://drive.google.com/drive/folders/1Fqqn5USxU1f51Ruo8G9BVQTJanWqC6ew?usp=sharing"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <div className="custom-cursor-area relative mt-5 flex aspect-square items-center justify-center overflow-clip rounded-md bg-[var(--color-secondary-300)] p-[var(--space-md)] sm:p-[var(--space-lg)] xl:p-[var(--space-2xl)]">
-                      <div>
-                        <div style={{ width: "100%", height: "100%" }}></div>
-                      </div>
+                      <video
+                        src="/partner-plus-bottom.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
                       <div className="z-10 aspect-[4/3] w-full overflow-clip rounded-lg">
-                        <div className="aspect-[4/3] w-full rounded-lg bg-gray-100 overflow-hidden"></div>
+                        <img
+                          src="/partner-plus-top.png"
+                          alt="Partner+ Dashboard"
+                          className="aspect-[4/3] w-full rounded-lg object-cover"
+                          decoding="async"
+                        />
                       </div>
                     </div>
                     <div className="flex flex-col justify-between gap-y-[var(--space-sm)] pt-[var(--space-xs)] lg:flex-row">
                       <div className="flex flex-col gap-y-[var(--space-3xs)]">
                         <span className="font-mono text-var(--text-base-small) font-medium text-[var(--color-secondary-50)]">
                           <h1 className="font-mono cursor-default ">
-                            Modern Marketing Website
+                            B2B SAAS Platform
                           </h1>
                         </span>
                         <div className="w-fit text-[length:var(--text-heading-3)] font-semibold text-[var(--color-accent-400)]">
-                          <h1 className="font-mono cursor-default ">NURA</h1>
+                          <h1 className="font-mono cursor-default ">Partner+</h1>
                         </div>
                       </div>
                       <div className="flex items-end gap-x-[var(--space-3xs)] tracking-base text-[var(--color-secondary-50)]">
                         <span className="tag">Development</span>
+                        <span className="tag">System-Design</span>
                         <span className="tag border-[var(--color-secondary-50)] bg-[var(--color-secondary-50)] text-[var(--color-secondary-400)]">
                           2025
                         </span>
@@ -1483,33 +1595,42 @@ export default function Home() {
                 </div>
                 <div className="@container " data-index="1">
                   <a
-                    href="https://jyotirmayjobs.netlify.app/"
+                    href="https://github.com/theJyotirmay/trao-weather"
                     target="_blank"
                     rel="noopener noreferrer"
                   >
                     <div className="custom-cursor-area relative mt-5 flex aspect-square items-center justify-center overflow-clip rounded-md bg-[var(--color-secondary-300)] p-[var(--space-md)] sm:p-[var(--space-lg)] xl:p-[var(--space-2xl)]">
-                      <div>
-                        <div style={{ width: "100%", height: "100%" }}></div>
-                      </div>
+                      <video
+                        src="/weather-ai-bottom.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
                       <div className="z-10 aspect-[4/3] w-full overflow-clip rounded-lg">
-                        <div className="aspect-[4/3] w-full rounded-lg bg-gray-100 overflow-hidden"></div>
+                        <img
+                          src="/weather-ai-top.png"
+                          alt="Weather AI Dashboard"
+                          className="aspect-[4/3] w-full rounded-lg object-cover"
+                          decoding="async"
+                        />
                       </div>
                     </div>
                     <div className="flex flex-col justify-between gap-y-[var(--space-sm)] pt-[var(--space-xs)] lg:flex-row">
                       <div className="flex flex-col gap-y-[var(--space-3xs)]">
                         <span className="font-mono text-var(--text-base-small) font-medium text-[var(--color-secondary-50)]">
                           <h1 className="font-mono cursor-default ">
-                            Full-Stack Recruitment Platform
+                            An AI Powered weather application
                           </h1>
                         </span>
                         <div className="w-fit text-[length:var(--text-heading-3)] font-semibold text-[var(--color-accent-400)]">
-                          <h1 className="font-mono cursor-default ">
-                            Job Portal
-                          </h1>
+                          <h1 className="font-mono cursor-default ">Weather AI</h1>
                         </div>
                       </div>
                       <div className="flex items-end gap-x-[var(--space-3xs)] tracking-base text-[var(--color-secondary-50)]">
                         <span className="tag">Development</span>
+                        <span className="tag">AI</span>
                         <span className="tag border-[var(--color-secondary-50)] bg-[var(--color-secondary-50)] text-[var(--color-secondary-400)]">
                           2025
                         </span>
@@ -1519,35 +1640,44 @@ export default function Home() {
                 </div>
                 <div className="@container " data-index="2">
                   <a
-                    href="https://productivity-saas-jyotirmay.netlify.app/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/re"
                   >
                     <div className="custom-cursor-area relative mt-5 flex aspect-square items-center justify-center overflow-clip rounded-md bg-[var(--color-secondary-300)] p-[var(--space-md)] sm:p-[var(--space-lg)] xl:p-[var(--space-2xl)]">
-                      <div>
-                        <div style={{ width: "100%", height: "100%" }}></div>
-                      </div>
+                      <video
+                        src="/real-estate-websites-bottom.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 h-full w-full object-cover"
+                      />
                       <div className="z-10 aspect-[4/3] w-full overflow-clip rounded-lg">
-                        <div className="aspect-[4/3] w-full rounded-lg bg-gray-100 overflow-hidden"></div>
+                        <img
+                          src="/real-estate-websites-top.png"
+                          alt="Real estate websites"
+                          className="aspect-[4/3] w-full rounded-lg object-cover object-left"
+                          decoding="async"
+                        />
                       </div>
                     </div>
                     <div className="flex flex-col justify-between gap-y-[var(--space-sm)] pt-[var(--space-xs)] lg:flex-row">
                       <div className="flex flex-col gap-y-[var(--space-3xs)]">
                         <span className="font-mono text-var(--text-base-small) font-medium text-[var(--color-secondary-50)]">
                           <h1 className="font-mono cursor-default ">
-                            SAAS Platform
+                            Curated Sites
                           </h1>
                         </span>
                         <div className="w-fit text-[length:var(--text-heading-3)] font-semibold text-[var(--color-accent-400)]">
                           <h1 className="font-mono cursor-default ">
-                            Productivity SAAS
+                            Real Estate Websites
                           </h1>
                         </div>
                       </div>
                       <div className="flex items-end gap-x-[var(--space-3xs)] tracking-base text-[var(--color-secondary-50)]">
-                        <span className="tag">Development</span>
+                        <span className="tag">UI/UX</span>
+                        <span className="tag">Web-Design</span>
                         <span className="tag border-[var(--color-secondary-50)] bg-[var(--color-secondary-50)] text-[var(--color-secondary-400)]">
-                          2025
+                          2026
                         </span>
                       </div>
                     </div>
@@ -1555,38 +1685,48 @@ export default function Home() {
                 </div>
                 <div className="@container " data-index="3">
                   <a
-                    href="https://movierecommendation-sbjn.onrender.com/"
-                    target="_blank"
-                    rel="noopener noreferrer"
+                    href="/new"
                   >
                     <div className="custom-cursor-area relative mt-5 flex aspect-square items-center justify-center overflow-clip rounded-md bg-[var(--color-secondary-300)] p-[var(--space-md)] sm:p-[var(--space-lg)] xl:p-[var(--space-2xl)]">
-                      <div>
-                        <div style={{ width: "100%", height: "100%" }}></div>
-                      </div>
+                      <video
+                        src="/inspirations-bottom.mp4"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        className="absolute inset-0 w-full h-full object-cover"
+                      />
                       <div className="z-10 aspect-[4/3] w-full overflow-clip rounded-lg">
-                        <div className="aspect-[4/3] w-full rounded-lg bg-gray-100 overflow-hidden"></div>
+                        <img
+                          src="/inspirations-top.jpg"
+                          alt="Curated experience"
+                          className="aspect-[4/3] w-full rounded-lg object-cover"
+                          decoding="async"
+                        />
                       </div>
                     </div>
                     <div className="flex flex-col justify-between gap-y-[var(--space-sm)] pt-[var(--space-xs)] lg:flex-row">
                       <div className="flex flex-col gap-y-[var(--space-3xs)]">
                         <span className="font-mono text-var(--text-base-small) font-medium text-[var(--color-secondary-50)]">
                           <h1 className="font-mono cursor-default ">
-                            ML Recommendation Engine
+                            Inspiration
                           </h1>
                         </span>
                         <div className="w-fit text-[length:var(--text-heading-3)] font-semibold text-[var(--color-accent-400)]">
-                          <h1 className="font-mono cursor-default ">CineRec</h1>
+                          <h1 className="font-mono cursor-default ">Curated experience</h1>
                         </div>
                       </div>
                       <div className="flex items-end gap-x-[var(--space-3xs)] tracking-base text-[var(--color-secondary-50)]">
                         <span className="tag">Development</span>
+                        <span className="tag">Design</span>
                         <span className="tag border-[var(--color-secondary-50)] bg-[var(--color-secondary-50)] text-[var(--color-secondary-400)]">
-                          2025
+                          2026
                         </span>
                       </div>
                     </div>
                   </a>
                 </div>
+                {/*
                 <div className="@container " data-index="4">
                   <a
                     href="https://code2img-jyotirmay.netlify.app/"
@@ -1623,6 +1763,7 @@ export default function Home() {
                     </div>
                   </a>
                 </div>
+                */}
               </aside>
             </div>
           </div>
@@ -2366,15 +2507,15 @@ export default function Home() {
                 </div>
               </div>
               <div className="custom-grid col-span-full gap-y-[var(--space-lg)] lg:gap-y-[var(--space-2xl)]">
-                <div className="pointer-events-none max-h-[30rem] relative z-0 col-span-3 flex aspect-square w-full items-center overflow-clip rounded-md sm:aspect-auto md:items-end">
-                  <img
-                    alt="Just an Image."
-                    width="1536"
-                    height="2040"
-                    decoding="async"
+                <div className="pointer-events-none relative z-0 col-span-3 flex aspect-[4/5] max-h-[30rem] w-full items-center overflow-clip rounded-md md:items-end">
+                  <video
+                    src="/hero.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    aria-label="Curated digital experience in motion"
                     className="h-full w-full object-cover object-center"
-                    style={{ color: "transparent" }}
-                    src="/1.webp"
                   />
                 </div>
                 <div className="col-span-7 col-start-6 flex flex-col gap-y-[var(--space-xl)] lg:gap-y-[var(--space-2xl)]">
@@ -3670,7 +3811,7 @@ export default function Home() {
                       height="28"
                       decoding="async"
                       style={{ color: "transparent" }}
-                      src="https://zunedaalim.com/_next/static/media/arrow.d4e31afc.svg"
+                      src="/window.svg"
                     />
                   </span>
                   <span className="absolute flex translate-y-20 transition-all duration-500 ease-in-out-cubic group-hover:translate-y-0">
@@ -3681,7 +3822,7 @@ export default function Home() {
                       height="28"
                       decoding="async"
                       style={{ color: "transparent" }}
-                      src="https://zunedaalim.com/_next/static/media/arrow.d4e31afc.svg"
+                      src="/window.svg"
                     />
                   </span>
                 </button>

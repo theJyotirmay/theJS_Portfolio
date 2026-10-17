@@ -1,0 +1,1 @@
+const fs = require('fs'); fetch('https://jyotirmay.dev/').then(r=>r.text()).then(t=>{ const m1 = t.match(/<svg[^>]*width="1430"[^>]*>.*?<\/svg>/s); if(m1) fs.writeFileSync('jyotirmay-svg.html', m1[0]); const m2 = t.match(/<a[^>]*href="#Contact"[^>]*>.*?<\/a>/s); if(m2) fs.writeFileSync('jyotirmay-button.html', m2[0]); console.log('Done.'); })

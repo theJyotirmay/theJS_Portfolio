@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Eleven Diwali — creative directions for a celebration that brings every home closer.">
+  <title>Eleven | Diwali — Come Home to Celebration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Playfair+Display:ital,wght@0,500;0,600;1,500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --blue: #082d78;
+      --blue-deep: #041b4c;
+      --blue-bright: #124fb3;
+      --ink: #071a3d;
+      --paper: #f7faff;
+      --white: #fff;
+      --gold: #e8bd64;
+      --line: rgba(8, 45, 120, .16);
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", Arial, sans-serif;
+      --ease: cubic-bezier(.2, .8, .2, 1);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--paper);
+      font: 400 16px/1.7 var(--sans);
+      overflow-x: hidden;
+    }
+    a { color: inherit; text-decoration: none; }
+    img, video { display: block; max-width: 100%; }
+    .container { width: min(1180px, calc(100% - 9vw)); margin: auto; }
+    .eyebrow {
+      color: var(--blue-bright);
+      font-size: .72rem;
+      font-weight: 600;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .serif { font-family: var(--serif); }
+    .section { padding: clamp(5.5rem, 11vw, 10rem) 0; }
+    .section-heading { max-width: 740px; margin-bottom: 4rem; }
+    .section-heading h2 {
+      margin: .65rem 0 1.2rem;
+      color: var(--blue);
+      font: 500 clamp(2.7rem, 5vw, 5rem)/1.08 var(--serif);
+      letter-spacing: -.035em;
+    }
+    .section-heading p { max-width: 570px; margin: 0; color: #53627c; font-size: 1.05rem; }
+
+    /* Navigation */
+    .nav {
+      position: fixed; inset: 0 0 auto; z-index: 10;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.45rem 4.5vw;
+      color: var(--white);
+      transition: background .4s var(--ease), color .4s var(--ease), padding .4s var(--ease);
+    }
+    .nav.scrolled { padding-block: 1rem; color: var(--blue); background: rgba(255,255,255,.92); backdrop-filter: blur(18px); box-shadow: 0 1px 0 var(--line); }
+    .brand { display: flex; align-items: center; gap: .75rem; font-size: 1.05rem; font-weight: 600; letter-spacing: .08em; }
+    .brand-mark { display: grid; place-items: center; width: 31px; height: 31px; border: 1px solid currentColor; border-radius: 50%; font: italic 1.1rem var(--serif); }
+    .nav-links { display: flex; gap: 2.4rem; font-size: .72rem; letter-spacing: .16em; text-transform: uppercase; }
+    .nav-links a { opacity: .9; }
+    .nav-links a:hover { opacity: 1; color: var(--gold); }
+
+    /* Hero */
+    .hero { position: relative; min-height: min(900px, 100vh); display: grid; align-items: end; color: var(--white); overflow: hidden; }
+    .hero-video { position: absolute; inset: 0; z-index: -2; width: 100%; height: 100%; object-fit: cover; }
+    .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: linear-gradient(90deg, rgba(2,17,54,.82), rgba(4,27,76,.18) 68%), linear-gradient(0deg, rgba(2,17,54,.82), transparent 58%); }
+    .hero-content { padding: 12rem 0 8rem; }
+    .hero-content .eyebrow { color: var(--gold); }
+    .hero h1 { max-width: 800px; margin: 1.2rem 0 1.3rem; font: 500 clamp(4rem, 10vw, 9.5rem)/.92 var(--serif); letter-spacing: -.065em; }
+    .hero h1 em { display: block; color: #dce9ff; }
+    .hero-copy { max-width: 440px; margin: 0; color: rgba(255,255,255,.82); font-size: 1.05rem; }
+    .scroll-cue { display: flex; align-items: center; gap: .9rem; margin-top: 4rem; color: rgba(255,255,255,.65); font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; }
+    .scroll-cue::before { content: ""; width: 52px; height: 1px; background: var(--gold); }
+
+    /* Story feature */
+    .story-section { background: var(--white); }
+    .story-grid { display: grid; grid-template-columns: minmax(220px, 390px) 1fr; gap: clamp(3rem, 9vw, 9rem); align-items: center; }
+    .story-video-wrap { position: relative; width: min(100%, 365px); margin: auto; padding: .8rem; background: linear-gradient(145deg, #dce9ff, #fff); box-shadow: 0 24px 80px rgba(8,45,120,.16); }
+    .story-video-wrap::after { content: ""; position: absolute; inset: .8rem; border: 1px solid rgba(255,255,255,.6); pointer-events: none; }
+    .story-video { width: 100%; aspect-ratio: 9/16; object-fit: cover; }
+    .story-copy h2 { margin: .7rem 0 1.3rem; color: var(--blue); font: 500 clamp(2.8rem, 5vw, 5.3rem)/1.03 var(--serif); letter-spacing: -.045em; }
+    .story-copy h2 em { color: var(--blue-bright); }
+    .story-copy > p { max-width: 540px; color: #53627c; font-size: 1.08rem; }
+    .story-note { display: grid; grid-template-columns: auto 1fr; gap: 1rem; align-items: start; margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); }
+    .story-note strong { color: var(--blue); font-size: .76rem; letter-spacing: .14em; text-transform: uppercase; }
+    .story-note p { margin: 0; color: #53627c; font-size: .9rem; }
+
+    /* Ad ideas */
+    .ideas-section { background: #eef4ff; }
+    .ideas-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.4rem; }
+    .idea-card { position: relative; overflow: hidden; min-height: 700px; color: var(--white); background: var(--blue-deep); }
+    .idea-card video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: .75; transition: transform .8s var(--ease), opacity .5s; }
+    .idea-card:hover video { transform: scale(1.04); opacity: .9; }
+    .idea-card::after { content: ""; position: absolute; inset: 0; background: linear-gradient(0deg, rgba(2,18,58,.94), rgba(2,18,58,.04) 75%); }
+    .idea-content { position: absolute; inset: auto 2rem 2rem; z-index: 1; }
+    .idea-number { color: var(--gold); font-size: .72rem; letter-spacing: .18em; }
+    .idea-content h3 { margin: .35rem 0 .55rem; font: 500 clamp(1.8rem, 3vw, 2.7rem)/1.05 var(--serif); }
+    .idea-content p { max-width: 430px; margin: 0; color: rgba(255,255,255,.82); font-size: .88rem; line-height: 1.55; }
+    .idea-tag { display: inline-block; margin-top: 1rem; padding: .3rem .65rem; border: 1px solid rgba(255,255,255,.35); color: var(--gold); font-size: .63rem; letter-spacing: .12em; text-transform: uppercase; }
+
+    /* Strategy */
+    .strategy { position: relative; overflow: hidden; color: var(--white); background: radial-gradient(circle at 88% 12%, rgba(46,107,214,.55), transparent 28rem), linear-gradient(135deg, #041b4c, #0a3f98 58%, #082d78); }
+    .strategy::before { content: ""; position: absolute; top: -18rem; right: -10rem; width: 42rem; height: 42rem; border: 1px solid rgba(232,189,100,.22); border-radius: 50%; box-shadow: 0 0 0 3rem rgba(232,189,100,.035), 0 0 0 7rem rgba(232,189,100,.025); }
+    .strategy::after { content: "03"; position: absolute; right: 5vw; bottom: -3rem; color: rgba(255,255,255,.045); font: 600 15rem/.8 var(--serif); pointer-events: none; }
+    .strategy .container { position: relative; z-index: 1; }
+    .strategy .section-heading { display: grid; grid-template-columns: minmax(300px, .9fr) minmax(260px, .7fr); column-gap: clamp(3rem, 10vw, 10rem); align-items: end; max-width: none; margin-bottom: 4rem; }
+    .strategy .section-heading .eyebrow { grid-column: 1; }
+    .strategy .section-heading h2 { grid-column: 1; margin-bottom: 0; color: var(--white); }
+    .strategy .section-heading > p:last-child { grid-column: 2; grid-row: 1 / span 2; align-self: end; padding-bottom: .45rem; color: rgba(255,255,255,.72); }
+    .strategy-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.15rem; background: transparent; }
+    .strategy-card { position: relative; min-height: 275px; padding: 2rem 2rem 2.25rem; overflow: hidden; border: 1px solid rgba(255,255,255,.22); border-radius: 2px; background: linear-gradient(145deg, rgba(255,255,255,.11), rgba(255,255,255,.025)); transition: transform .35s var(--ease), border-color .35s ease, background .35s ease; }
+    .strategy-card::after { content: ""; position: absolute; right: -2.5rem; bottom: -3rem; width: 9rem; height: 9rem; border: 1px solid rgba(232,189,100,.28); border-radius: 50%; transition: transform .5s var(--ease); }
+    .strategy-card:hover { transform: translateY(-8px); border-color: var(--gold); background: linear-gradient(145deg, rgba(255,255,255,.16), rgba(255,255,255,.04)); }
+    .strategy-card:hover::after { transform: scale(1.22); }
+    .strategy-card h3 { margin: 1.3rem 0 .85rem; color: var(--white); font: 500 clamp(1.7rem, 2.6vw, 2.35rem)/1.05 var(--serif); }
+    .strategy-card h3::after { content: ""; display: block; width: 2.2rem; height: 2px; margin-top: 1.15rem; background: var(--gold); }
+    .strategy-card p { margin: 0; color: rgba(255,255,255,.7); font-size: .92rem; }
+    .strategy-card .eyebrow { color: var(--gold); }
+
+    .closing { padding: 8rem 0; color: var(--white); text-align: center; background: var(--blue-deep); }
+    .closing h2 { margin: .7rem auto 1.4rem; max-width: 720px; font: 500 clamp(3rem, 6vw, 6rem)/1 var(--serif); letter-spacing: -.05em; }
+    .closing p { max-width: 480px; margin: auto; color: rgba(255,255,255,.7); }
+    footer { display: flex; justify-content: center; padding: 1.7rem 4.5vw; color: rgba(255,255,255,.48); background: #021536; font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+    .creator-link { transition: color .25s ease; }
+    .creator-link:hover, .creator-link:focus-visible { color: #afbd00; }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity .8s var(--ease), transform .8s var(--ease); }
+    .reveal.visible { opacity: 1; transform: none; }
+    @media (max-width: 720px) {
+      .nav { padding: 1.15rem 5vw; }
+      .nav-links { gap: 1rem; font-size: .6rem; }
+      .hero-content { padding: 10rem 0 5rem; }
+      .hero h1 { font-size: clamp(3.7rem, 18vw, 6rem); }
+      .story-grid, .ideas-grid, .strategy-grid { grid-template-columns: 1fr; }
+      .strategy .section-heading { display: block; }
+      .strategy .section-heading > p:last-child { margin-top: 1.5rem; padding: 0; }
+      .story-video-wrap { width: min(78vw, 330px); }
+      .idea-card { min-height: 700px; }
+      .strategy-grid { gap: 1px; }
+      .strategy-card { min-height: 0; }
+      footer { display: block; line-height: 2; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .reveal { opacity: 1; transform: none; transition: none; }
+      .idea-card video { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero" id="top">
+    <video class="hero-video" autoplay muted loop playsinline preload="metadata" aria-label="Diwali celebration film">
+      <source src="assets/hero.mp4" type="video/mp4">
+    </video>
+    <div class="container hero-content">
+      <h1 class="reveal">Come home<br><em>to celebration.</em></h1>
+      <p class="hero-copy reveal">A festive content world built around one timeless truth: poori duniya ek taraf, ghar ka sukoon ek taraf.</p>
+      <div class="scroll-cue reveal">Explore the creative direction</div>
+    </div>
+  </header>
+
+  <main>
+    <section class="section story-section" id="story">
+      <div class="container story-grid">
+        <div class="story-video-wrap reveal">
+          <video class="story-video" autoplay muted loop playsinline preload="metadata" aria-label="Vertical Diwali story film">
+            <source src="assets/story size aesthetic video.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div class="story-copy reveal">
+          <p class="eyebrow">The central thought</p>
+          <h2>Khushiyon ka aangan,<br><em>apno ke sang.</em></h2>
+          <p>Diwali is more than lights, mithai and celebrations. It is the feeling of returning to a place where every wish has room to come alive — with comfort, convenience and the people who make it home.</p>
+          <div class="story-note">
+            <strong>Tonality</strong>
+            <p>Warm, aspirational and emotionally rooted. A modern festive story with a distinctly Indian heart.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section strategy" id="strategy">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">The content strategy</p>
+          <h2>Make them feel.<br>Then make them act.</h2>
+          <p>A balanced film mix keeps the campaign memorable, relevant and conversion-ready — without making every message feel like an advertisement.</p>
+        </div>
+        <div class="strategy-grid">
+          <article class="strategy-card reveal"><p class="eyebrow">01 · Direct</p><h3>Say it simply.</h3><p>Quick, clear communication for viewers who already have intent. The right audience understands the offer in seconds.</p></article>
+          <article class="strategy-card reveal"><p class="eyebrow">02 · Promotional</p><h3>Give a reason.</h3><p>Offer-led films support hard selling and make the next step obvious, while keeping the creative warm and festive.</p></article>
+          <article class="strategy-card reveal"><p class="eyebrow">03 · Indirect</p><h3>Leave a feeling.</h3><p>Curiosity, culture and aesthetics build brand value — inviting even non-buyers to watch, remember and share.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section ideas-section" id="ideas">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">Four filmable directions</p>
+          <h2>Every home has<br>a story to tell.</h2>
+          <p>From an immediate offer-led message to a curiosity-building brand film, each route is designed to earn attention before it asks for action.</p>
+        </div>
+        <div class="ideas-grid">
+          <article class="idea-card reveal">
+            <video autoplay muted loop playsinline preload="metadata" aria-label="Diwali ad concept one"><source src="assets/ad-1.mp4" type="video/mp4"></video>
+            <div class="idea-content"><span class="idea-number">01</span><h3>Idea 1</h3><p>Old dadi tries to literally diya with shaking hands.<br>Kid comes and helps.<br>Diya lits.<br>Old dadi comes and stands with old dadi both smiles.<br>Family is shown two kids husband and wife,  all doing Diwali rituals and activities and are happy.<br><br>Khushiyo ka aangan apne apno ke sang.<br>Offer display</p></div>
+          </article>
+          <article class="idea-card reveal">
+            <video autoplay muted loop playsinline preload="metadata" aria-label="Diwali ad concept two"><source src="assets/ad-2.mp4" type="video/mp4"></video>
+            <div class="idea-content"><span class="idea-number">02</span><h3>Idea 2</h3><p>Family sitting in drawing home that's decorated with Diwali snacks on table.<br>There's a bowl full of lists family playing game.<br>One picks up the chit thatbhas the word Diwali written.<br>Say dher sari mithaiya aur fatake.<br>Next person says shopping<br>Next says cleaning &amp; travelling<br>Next says vacation and sleep ing<br>Next says ghar Khushiyon se bhara hua ghar (Puri duniya ek taraf aur gharka sukoon ek taraf)<br>Then continuation ghar where you get peace comfort convenience etc.<br><br>Come Home To Celebration filled aangan</p></div>
+          </article>
+          <article class="idea-card reveal">
+            <video autoplay muted loop playsinline preload="metadata" aria-label="Diwali ad concept three"><source src="assets/ad-3.mp4" type="video/mp4"></video>
+            <div class="idea-content"><span class="idea-number">03</span><h3>Idea 3</h3><p>Represnt different characters belonging to different states<br>Show different forms of diwali celebrations across India.<br>One thing that's common everywhere is home.<br>Home where we all celebrate.</p></div>
+          </article>
+          <article class="idea-card reveal">
+            <video autoplay muted loop playsinline preload="metadata" aria-label="Diwali ad concept four"><source src="assets/ad-4.mp4" type="video/mp4"></video>
+            <div class="idea-content"><span class="idea-number">04</span><h3>Idea 4</h3><p>Diwali checklist of wishes and essentials.<br>Entire family sitting in dining room<br>Wife asks husband to check the list and get things.<br>Husband read out to things then old dadi gives a reminder (108 diye bhi leke aana)<br>Dada (sugarfree mithaiya mil jata toh maza aajata dilwai pe)<br>Boy kid (need outdoor play area for nonstop fun)<br>Girl kid (I wish to have many new friends)<br>Man of the house decides to find solution for every wishes made and requirements raised.</p></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="closing">
+      <div class="container reveal">
+        <p class="eyebrow" style="color:var(--gold)">The campaign line</p>
+        <h2>Is Diwali really Diwali without home?</h2>
+        <p>Let’s create a festive world where every film feels like an invitation — to come closer, come together and come home.</p>
+      </div>
+    </section>
+  </main>
+  <footer><a class="creator-link" href="https://theforbiddenfruit.co.in" target="_blank" rel="noopener noreferrer">Created by Forbidden Fruit Advertising</a></footer>
+
+  <script>
+    const reveals = document.querySelectorAll(".reveal");
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .12 });
+    reveals.forEach((element, index) => {
+      element.style.transitionDelay = `${Math.min(index % 4 * 70, 210)}ms`;
+      observer.observe(element);
+    });
+  </script>
+</body>
+</html>
