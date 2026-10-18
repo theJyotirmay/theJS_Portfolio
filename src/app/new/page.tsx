@@ -172,6 +172,7 @@ export default function NewPage() {
           </div>
         </div>
       </footer>
+      <Link href="/" className={styles.backToMain}>← Back to main</Link>
     </main>
   );
 }

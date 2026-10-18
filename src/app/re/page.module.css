@@ -87,6 +87,8 @@
 .footer { padding-top: 1.5rem; border-top: 1px solid rgba(246,243,235,.15); }
 .footerBack { transition: color .3s; }
 .footerBack:hover { color: var(--accent); }
+.backToMain { position: fixed; z-index: 25; bottom: 1.5rem; left: 5vw; padding: .65rem .85rem; border: 1px solid rgba(246,243,235,.35); color: #f6f3eb; background: rgba(38,56,50,.82); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(8px); transition: color .3s, border-color .3s, background .3s; }
+.backToMain:hover { border-color: var(--accent); color: var(--accent); background: rgba(38,56,50,.96); }
 @keyframes rotate { to { transform: rotate(360deg); } }
 @media (max-width: 800px) {
   .nav { padding: 1.4rem 5vw; }

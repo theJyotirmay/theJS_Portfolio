@@ -76,6 +76,8 @@
 .footerBottom { padding-top: 1.3rem; border-top: 1px solid rgba(255,255,255,.18); }
 .footerBottom a { transition: color .3s; }
 .footerBottom a:hover { color: var(--orange); }
+.backToMain { position: fixed; z-index: 25; bottom: 1.5rem; left: 5vw; padding: .65rem .85rem; border: 1px solid rgba(255,255,255,.4); color: #fff; background: rgba(17,22,21,.75); font-size: .65rem; letter-spacing: .12em; text-transform: uppercase; backdrop-filter: blur(8px); transition: color .3s, border-color .3s, background .3s; }
+.backToMain:hover { border-color: var(--orange); color: var(--orange); background: rgba(17,22,21,.95); }
 @keyframes spin { to { transform: rotate(360deg); } }
 @media (max-width: 800px) {
   .nav { padding: 1.4rem 5vw; } .logo img { width: min(19rem, 46vw); max-height: 3.6rem; }

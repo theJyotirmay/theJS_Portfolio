@@ -215,6 +215,7 @@ export default function RePage() {
           <a href="/#Contact" className={styles.contactButton}>Start a conversation <span>↗</span></a>
         </div>
       </section>
+      <Link href="/" className={styles.backToMain}>← Back to main</Link>
     </main>
   );
 }

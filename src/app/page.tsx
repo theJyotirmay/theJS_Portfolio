@@ -404,7 +404,7 @@ export default function Home() {
                 ))}
               </div>
               <span className="flex flex-col text-[length:var(--text-heading-display)] font-semibold uppercase leading-[80%] tracking-[var(--tracking-heading)] text-[var(--color-secondary-400)] md:hidden">
-                <div className="block w-full overflow-hidden">
+                <div className="block w-full overflow-hidden whitespace-nowrap">
                   <span className="" style={{ opacity: "0" }}>
                     <span
                       className="inline-block"
@@ -438,7 +438,7 @@ export default function Home() {
                     </span> */}
                   </span>
                 </div>
-                <div className="block w-full overflow-hidden">
+                <div className="block w-full overflow-hidden whitespace-nowrap">
                   <span className="" style={{ opacity: "0" }}>
                     <span
                       className="inline-block"
@@ -795,7 +795,7 @@ export default function Home() {
           <div className="relative z-20 min-h-screen w-full overflow-x-clip">
             <section className="section-padding rounded-t-3xl bg-[var(--color-secondary-400)] text-[var(--color-text-bg)]">
               <div className="relative flex w-full flex-col gap-y-[var(--space-lg)] md:gap-y-[var(--space-2xl)]">
-                <h1 className="cs2:text-[length:var(--text-h1)] section-heading col-span-6 max-w-[18ch] text-accent-400">
+                <h1 className="hidden cs2:text-[length:var(--text-h1)] section-heading col-span-6 max-w-[18ch] text-accent-400 md:block">
                   <div className="overflow-hidden">
                     <span className="" style={{ opacity: "0" }}>
                       <span
@@ -866,6 +866,9 @@ export default function Home() {
                       </span>
                     </span>
                   </div>
+                </h1>
+                <h1 className="section-heading text-[length:var(--text-h1)] text-accent-400 md:hidden">
+                  What I Do /
                 </h1>
                 <div className="flex grid-cols-12 gap-x-[var(--gap-fluid)] md:grid">
                   <div className="col-span-7 flex flex-col gap-x-[var(--space-xl)] gap-y-[var(--space-2xs)] sm:flex-row md:col-start-6">
@@ -1276,7 +1279,7 @@ export default function Home() {
         <section id="Works">
           <div className="section-padding bg-[var(--color-secondary-400)]">
             <div className="flex flex-col gap-y-[var(--space-lg)] md:gap-y-[var(--space-2xl)]">
-              <h1 className="section-heading relative text-[var(--color-accent-400)]">
+              <h1 className="hidden section-heading relative text-[var(--color-accent-400)] md:block">
                 <div className="overflow-hidden">
                   <span className="" style={{ opacity: "0" }}>
                     <span
@@ -1377,6 +1380,9 @@ export default function Home() {
                     </span>
                   </span>
                 </div>
+              </h1>
+              <h1 className="section-heading relative text-[var(--color-accent-400)] md:hidden">
+                Selected<br />Works /
               </h1>
               <div className="grid-gap flex grid-cols-12 sm:justify-end lg:grid">
                 <div className="col-span-7 col-start-1 flex flex-col gap-x-[var(--space-xl)] gap-y-[var(--space-2xs)] sm:col-start-6 sm:flex-row">
@@ -2025,7 +2031,7 @@ export default function Home() {
                       </h2>
                       <div className="grid grid-cols-3 md:grid-cols-3 c343:gap-1 gap-0 md:gap-5 md:p-5 c370:p-1 p-0">
                         <div className=" c370:p-2 p-0  rounded-2xl shadow-md  hover:shadow-lg transition self-start">
-                          <h3 className="hidden md:flex text-xl font-semibold mb-4">
+                          <h3 className="flex text-[length:var(--text-base)] font-semibold mb-4 md:text-xl">
                             Languages &amp; Tools
                           </h3>
                           <ul className="space-y-3  md:text-base">
@@ -2219,10 +2225,20 @@ export default function Home() {
                                 </span>
                               </span>
                             </div>
+                            <div className="flex relative items-start gap-2 text-[var(--color-secondary-50)] c343:text-[length:var(--text-base)] text-[length:var(--text-skill)]">
+                              <span className="group relative block h-fit overflow-hidden font-medium select-none">
+                                <span className="block w-full transition-transform duration-[0.4s] ease-[cubic-bezier(.51,.92,.24,1.15)] translate-y-0 group-hover:-translate-y-full">
+                                  <h1 className="font-mono cursor-default">MongoDB</h1>
+                                </span>
+                                <span aria-hidden="true" className="absolute top-0 left-0 w-full block transition-transform duration-[0.4s] ease-[cubic-bezier(.51,.92,.24,1.15)] translate-y-full group-hover:translate-y-0">
+                                  <h1 className="font-mono cursor-default">MongoDB</h1>
+                                </span>
+                              </span>
+                            </div>
                           </ul>
                         </div>
                         <div className=" c370:p-2 p-0  rounded-2xl shadow-md  hover:shadow-lg transition self-start">
-                          <h3 className="hidden md:flex text-xl font-semibold mb-4">
+                          <h3 className="flex text-[length:var(--text-base)] font-semibold mb-4 md:text-xl">
                             Frameworks &amp; Libraries
                           </h3>
                           <ul className="space-y-3  md:text-base">
@@ -2400,7 +2416,7 @@ export default function Home() {
                           </ul>
                         </div>
                         <div className=" c370:p-2 p-0  rounded-2xl shadow-md  hover:shadow-lg transition self-start">
-                          <h3 className="hidden md:flex text-xl font-semibold mb-4">
+                          <h3 className="flex text-[length:var(--text-base)] font-semibold mb-4 md:text-xl">
                             Core CS Concepts
                           </h3>
                           <ul className="space-y-3  md:text-base">
@@ -3729,7 +3745,7 @@ export default function Home() {
                     className="group relative block h-fit  overflow-hidden font-medium cursor-pointer select-none flex w-fit leading-base text-[var(--color-secondary-100)] sm:leading-snug"
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://www.linkedin.com/in/jyotirmay/"
+                    href="https://www.linkedin.com/in/thejs781/"
                   >
                     <span className="block w-full transition-transform duration-[0.4s] ease-[cubic-bezier(.51,.92,.24,1.15)] translate-y-0 group-hover:-translate-y-full">
                       Linkedin
@@ -3748,7 +3764,7 @@ export default function Home() {
                     className="group relative block h-fit  overflow-hidden font-medium cursor-pointer select-none flex w-fit leading-base text-[var(--color-secondary-100)] sm:leading-snug"
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://www.instagram.com/jyotirmay/"
+                    href="https://www.instagram.com/thejs.dev?vrfl=NXQ4cGRzZjFkM3Bs&utm_source=qr"
                   >
                     <span className="block w-full transition-transform duration-[0.4s] ease-[cubic-bezier(.51,.92,.24,1.15)] translate-y-0 group-hover:-translate-y-full">
                       Instagram
@@ -3767,7 +3783,7 @@ export default function Home() {
                     className="group relative block h-fit  overflow-hidden font-medium cursor-pointer select-none flex w-fit leading-base text-[var(--color-secondary-100)] sm:leading-snug"
                     target="_blank"
                     rel="noopener noreferrer"
-                    href="https://github.com/jyotirmay"
+                    href="https://github.com/theJyotirmay"
                   >
                     <span className="block w-full transition-transform duration-[0.4s] ease-[cubic-bezier(.51,.92,.24,1.15)] translate-y-0 group-hover:-translate-y-full">
                       Github
