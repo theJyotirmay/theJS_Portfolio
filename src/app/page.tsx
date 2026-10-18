@@ -298,7 +298,7 @@ export default function Home() {
           ></path>
         </svg>
       </div>
-      <header className="absolute top-0 z-40 w-full">
+      <header className="home-header absolute top-0 z-40 w-full">
         <div className=" section-padding-x mt-[var(--space-md)] flex flex-row items-start justify-between gap-x-[var(--gap-fluid)] lg:grid lg:grid-cols-12 lg:items-center ">
           <div className="col-span-8 flex flex-col items-start gap-x-[var(--space-2xl)] gap-y-[var(--space-3xs)] lg:flex-row lg:items-center">
             <span className=" block w-fit max-w-[14ch] text-balance font-medium leading-snug text-[var(--color-secondary-100)] text-[length:var(--text-base)] sm:max-w-max md:text-[length:var(--text-base-small)] 2xl:text-[length:var(--text-base)] ">
@@ -385,7 +385,17 @@ export default function Home() {
           </nav>
         </div>
       </header>
-      <section className="mb-[-100svh] py-0 ">
+      <section className="home-hero mb-[-100svh] py-0 ">
+        <video
+          className="home-hero-mobile-video"
+          src="/hero.mp4"
+          autoPlay
+          muted
+          loop
+          playsInline
+          aria-hidden="true"
+        />
+        <div className="home-hero-mobile-overlay" aria-hidden="true" />
         <div className="section-padding-equal sticky top-0 flex h-svh items-end">
           <div className="relative flex w-full flex-col md:gap-y-[var(--space-lg)] ">
             <h1 className="text-[length:var(--text-h1)] overflow-clip">
@@ -403,99 +413,19 @@ export default function Home() {
                   </span>
                 ))}
               </div>
-              <span className="flex flex-col text-[length:var(--text-heading-display)] font-semibold uppercase leading-[80%] tracking-[var(--tracking-heading)] text-[var(--color-secondary-400)] md:hidden">
-                <div className="block w-full overflow-hidden whitespace-nowrap">
-                  <span className="" style={{ opacity: "0" }}>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      T
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      H
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      E
-                    </span>
-                    {/* <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      E
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      D
-                    </span> */}
-                  </span>
-                </div>
-                <div className="block w-full overflow-hidden whitespace-nowrap">
-                  <span className="" style={{ opacity: "0" }}>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      J
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      Y
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      O
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      T
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      I
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      R
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      M
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      A
-                    </span>
-                    <span
-                      className="inline-block"
-                      style={{ opacity: "0", transform: "translateY(100%)" }}
-                    >
-                      Y
-                    </span>
-                  </span>
-                </div>
+              <span
+                className="home-hero-mobile-name flex flex-col font-bold uppercase tracking-[var(--tracking-heading)] text-[var(--color-secondary-400)] md:hidden"
+                style={{
+                  fontFamily: "var(--font-montreal), sans-serif",
+                  fontSize: "clamp(2.4rem, 12vw, 5.2rem)",
+                  lineHeight: "0.85",
+                }}
+              >
+                <img
+                  src="/the_js_logo_white.png"
+                  alt="The JS"
+                  className="home-hero-mobile-logo"
+                />
               </span>
             </h1>
             <div className="relative grid w-full grid-cols-12 justify-between gap-x-[var(--gap-fluid)] gap-y-[var(--space-md)]">
