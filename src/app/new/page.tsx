@@ -143,7 +143,7 @@ export default function NewPage() {
           {displayVideos.map((video, index) => (
             <Reveal key={video} className={`${styles.galleryItem} ${index % 5 === 1 ? styles.galleryTall : ""} ${index % 5 === 3 ? styles.galleryOffset : ""}`}>
               <div className={styles.videoCard}>
-              <HoverVideo src={`/new/Display/${encodeURIComponent(video)}`} index={index} />
+                <HoverVideo src={`/new/Display/${encodeURIComponent(video)}`} index={index} />
                 <div className={styles.cardOverlay}><span>0{index + 1}</span><span>View / feel / remember</span></div>
               </div>
             </Reveal>
@@ -170,9 +170,12 @@ export default function NewPage() {
             <h2>Make them<br /><em>remember you.</em></h2>
             <Link className={styles.contactButton} href="/#Contact">Let&apos;s build your unfair advantage <span>↗</span></Link>
           </div>
+          <div className={styles.footerBottom}>
+            <Link href="/" className={styles.footerBack}>← Back to main</Link>
+            <span>theJS.dev</span>
+          </div>
         </div>
       </footer>
-      <Link href="/" className={styles.backToMain}>← Back to main</Link>
     </main>
   );
 }

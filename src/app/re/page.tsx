@@ -207,15 +207,18 @@ export default function RePage() {
         </div>
       </section>
 
-      <section id="contact" className={styles.contact}>
+      <footer id="contact" className={styles.contact}>
         <div className={styles.contactTop}><span>03 / 03</span><span>Let&apos;s make something felt</span></div>
         <div className={styles.contactBody}>
           <p className={styles.eyebrow}>Have a place in mind?</p>
           <h2>Let&apos;s build<br /><em>its next chapter.</em></h2>
           <a href="/#Contact" className={styles.contactButton}>Start a conversation <span>↗</span></a>
         </div>
-      </section>
-      <Link href="/" className={styles.backToMain}>← Back to main</Link>
+        <div className={styles.footer}>
+          <Link href="/" className={styles.footerBack}>← Back to main</Link>
+          <span>theJS.dev</span>
+        </div>
+      </footer>
     </main>
   );
 }
